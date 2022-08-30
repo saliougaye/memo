@@ -9,3 +9,21 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Memo {
+  id String @id @default(uuid())
+  title String
+  description String
+  createdAt DateTime @default(now())
+  reminder DateTime
+  notify Boolean
+  categoryId String?
+  category Category? @relation(fields: [categoryId], references: [id])
+}
+
+model Category {
+  id String @id @default(uuid())
+  name String
+  color String
+  memos Memo[]
+}
