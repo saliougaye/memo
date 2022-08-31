@@ -4,12 +4,14 @@ import { createRouter } from "../create-router";
 
 export const memoRouter = createRouter()
     .query('all', {
-        // input: z.object({}).nullish(),
         resolve: async ({ input, ctx }) => {
-            throw new trpc.TRPCError({
-                code: "BAD_REQUEST",
-                message: "Method not implemented"
-            })
+            const memos = await ctx.prisma.memo.findMany({
+                include: {
+                    category: true
+                }
+            });
+
+            return memos;
         }
     })
     .mutation('add', {
