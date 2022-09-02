@@ -6,7 +6,7 @@ import { getMemoDate } from "../utils/handle-date";
 import { trpc } from "../utils/trpc";
 
 const Home: NextPage = () => {
-	const { data, isLoading, isError, error } = trpc.useQuery(["memo.all"], {
+	const { data: memos, isLoading, isError, error } = trpc.useQuery(["memo.all"], {
 		refetchInterval: false,
 		refetchOnWindowFocus: false,
 		refetchOnReconnect: false,
@@ -42,9 +42,9 @@ const Home: NextPage = () => {
 			)}
 
 			<div className="grid grid-cols-4 gap-x-4">
-				{data && (
+				{memos && (
 					<>
-						{data.map((memo, index) => (
+						{memos.map((memo, index) => (
 							<MemoCard
 								key={index}
 								title={memo.title}
