@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { Loading, MemoCard } from "../components";
+import { AddMemoCard, Loading, MemoCard } from "../components/index";
 import { getMemoDate } from "../utils/handle-date";
 import { trpc } from "../utils/trpc";
 
@@ -41,27 +41,30 @@ const Home: NextPage = () => {
 				</div>
 			)}
 
-			{data && (
-				<div className="grid grid-cols-4 gap-x-4">
-					{data.map((memo, index) => (
-						<MemoCard
-							key={index}
-							title={memo.title}
-							notify={memo.notify}
-							date={getMemoDate(memo.reminder)}
-							description={memo.description}
-							category={
-								memo.category !== null
-									? {
-											name: memo.category.name,
-											color: memo.category.color,
-									  }
-									: undefined
-							}
-						/>
-					))}
-				</div>
-			)}
+			<div className="grid grid-cols-4 gap-x-4">
+				{data && (
+					<>
+						{data.map((memo, index) => (
+							<MemoCard
+								key={index}
+								title={memo.title}
+								notify={memo.notify}
+								date={getMemoDate(memo.reminder)}
+								description={memo.description}
+								category={
+									memo.category !== null
+										? {
+												name: memo.category.name,
+												color: memo.category.color,
+										  }
+										: undefined
+								}
+							/>
+						))}
+						<AddMemoCard />
+					</>
+				)}
+			</div>
 		</div>
 	);
 };
