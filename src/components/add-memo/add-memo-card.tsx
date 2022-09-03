@@ -34,21 +34,15 @@ export const AddMemoCard = (props: AddMemoCardProps) => {
 		<form>
 			<div
 				className="w-full flex flex-col bg-white rounded-xl py-6 px-8 shadow-lg border-l-4"
-				style={{ borderColor: colorSelected	}}
+				style={{ borderColor: colorSelected }}
 			>
 				{isLoading ? (
 					<Loading />
 				) : (
 					<>
-						<div className="flex flex-row justify-end mb-3">
-							<AddMemoCloseButton 
-								color={colorSelected}
-								onClose={() => setOpenCard(false)}
-							/>
-						</div>
-
 						<div className="my-2 flex-auto">
-							<AddMemoCategoryInput  
+							<AddMemoCategoryInput
+								categories={categories ?? []}
 								color={colorSelected}
 								onColorChange={setColorSelected}
 							/>
@@ -106,13 +100,21 @@ export const AddMemoCard = (props: AddMemoCardProps) => {
 						</div>
 
 						<div className="my-auto flex-auto">
-							<div className="flex flex-row justify-end">
-								<NotifyToggleInput
-									id="notify-input"
-									checked={notifyCheck}
-									onChange={() => setNotifyCheck((prev) => !prev)}
-									color={colorSelected}
-								/>
+							<div className="flex flex-row items-center justify-end space-x-2 content-center">
+								<div className="">
+									<NotifyToggleInput
+										id="notify-input"
+										checked={notifyCheck}
+										onChange={() => setNotifyCheck((prev) => !prev)}
+										color={colorSelected}
+									/>
+								</div>
+								<div>
+									<AddMemoCloseButton
+										color={colorSelected}
+										onClose={() => setOpenCard(false)}
+									/>
+								</div>
 							</div>
 						</div>
 					</>
