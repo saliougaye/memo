@@ -7,7 +7,7 @@ export interface AddMemoCategoryInputProps {
 	categories: Category[];
 	color: string;
 	onColorChange: (color: string) => void;
-	onChange: (category: { id?: string; name?: string; color?: string }) => void;
+	onChange: (category?: { id?: string; name: string; color: string }) => void;
 }
 
 
@@ -22,29 +22,21 @@ export const AddMemoCategoryInput = (props: AddMemoCategoryInputProps) => {
 		setIsNewCategoryView(isSelectCategoryView);
 		setCategorySelected(undefined);
 		props.onColorChange("#78716c");
-		props.onChange({
-			id: undefined,
-			name: undefined,
-			color: undefined
-		})
+		props.onChange(undefined)
 	};
 
 	const onSelectCategory = (category: Category | undefined) => {
 		if (!category) {
 			props.onColorChange("#78716c");
 
-			props.onChange({
-				id: undefined,
-				name: undefined,
-				color: undefined
-			});
+			props.onChange(undefined);
 		} else {
 			props.onColorChange(category.color);
 
 			props.onChange({
 				id: category.id, 
-				name: undefined, 
-				color: undefined
+				name: '', 
+				color: ''
 			});
 		}
 		setCategorySelected(category);

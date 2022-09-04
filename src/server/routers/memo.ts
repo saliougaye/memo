@@ -19,28 +19,32 @@ export const memoRouter = createRouter()
         input: addMemoSchema,
         resolve: async ({ input, ctx }) => {
             const { title, description, reminder, notify, category } = input;
-
-            const memoCreated = await ctx.prisma.memo.create({
-                data: {
-                    title: title,
-                    description: description ?? '',
-                    reminder: reminder,
-                    notify: notify,
-                    category: !category ? undefined : {
-                        connectOrCreate: {
-                            where: {
-                                id: category.id
-                            },
-                            create: {
-                                name: category.name,
-                                color: category.color,
-                            }
-                        }
-                    }
-                }
-            })
             
-            return memoCreated;
+            console.log(category)
+            // const memoCreated = await ctx.prisma.memo.create({
+            //     data: {
+            //         title: title,
+            //         description: description ?? '',
+            //         reminder: reminder,
+            //         notify: notify,
+            //         category: !category ? undefined : {
+            //             connectOrCreate: {
+            //                 where: {
+            //                     id: category.id
+            //                 },
+            //                 create: {
+            //                     name: category.name,
+            //                     color: category.color,
+            //                 }
+            //             }
+            //         },
+            //     },
+            //     include: {
+            //         category: true
+            //     }
+            // })
+            
+            // return memoCreated;
         }
     })
     .mutation('edit', {

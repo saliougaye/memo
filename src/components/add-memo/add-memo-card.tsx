@@ -17,14 +17,14 @@ export interface IAddMemoFormInput {
 	reminder: Date;
 	description: string;
 	notify: boolean;
-	category: {
+	category?: {
 		id?: string,
-		name?: string,
-		color?: string
+		name: string,
+		color: string
 	}
 }
 export interface AddMemoCardProps {
-	onAdd:(newMemo: IAddMemoFormInput) => void
+	onAdd:(newMemo: IAddMemoFormInput) => Promise<void>
 }
 
 
@@ -33,6 +33,7 @@ export const AddMemoCard = (props: AddMemoCardProps) => {
 	const [openCard, setOpenCard] = useState<boolean>(false);
 	const [notifyCheck, setNotifyCheck] = useState<boolean>(true);
 	const [colorSelected, setColorSelected] = useState<string>("#78716c");
+	const [onAddLoading, setOnAddLoading] = useState<boolean>(false);
 
 	const {
 		data: categories,
@@ -42,8 +43,11 @@ export const AddMemoCard = (props: AddMemoCardProps) => {
 
 	const { register, handleSubmit, reset, control, formState } = useForm<IAddMemoFormInput>();
 
-	const onSubmit: SubmitHandler<IAddMemoFormInput> = (data) => {
-		props.onAdd(data);
+	const onSubmit: SubmitHandler<IAddMemoFormInput> = async (data) => {
+		setOnAddLoading(true);
+		await props.onAdd(data);
+		setOnAddLoading(false);
+		onCloseCard()
 	};
 
 	const onCloseCard = () => {
@@ -68,7 +72,7 @@ export const AddMemoCard = (props: AddMemoCardProps) => {
 				className="w-full flex flex-col bg-white rounded-xl py-6 px-8 shadow-lg border-l-4"
 				style={{ borderColor: colorSelected }}
 			>
-				{isLoading ? (
+				{isLoading || onAddLoading ? (
 					<Loading />
 				) : (
 					<>
@@ -123,6 +127,7 @@ export const AddMemoCard = (props: AddMemoCardProps) => {
 								{...register("reminder", {
 									required: true,
 									validate: checkDate,
+									valueAsDate: true
 								})}
 							/>
 						</div>

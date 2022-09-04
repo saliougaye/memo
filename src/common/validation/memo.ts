@@ -2,7 +2,7 @@ import * as z from 'zod';
 
 export const addMemoSchema = z.object({
     title: z.string(),
-    description: z.string().max(30).nullish(),
+    description: z.string().max(200).nullish(),
     reminder: z.date().min(new Date()),
     notify: z.boolean().default(true),
     category: z.object({

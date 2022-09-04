@@ -1,5 +1,6 @@
 import { withTRPC } from '@trpc/next';
 import type { AppProps } from 'next/app';
+import superjson from 'superjson';
 import { AppRouter } from '../server/routers/_app';
 import '../styles/globals.css';
 
@@ -29,6 +30,7 @@ export default withTRPC<AppRouter>({
   config({ ctx }) {
     return {
       url: `${getBaseUrl()}/api/trpc`,
+      transformer: superjson
     }
   },
   ssr: true
