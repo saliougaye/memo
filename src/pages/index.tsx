@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
-import { AddMemoCard, Loading, MemoCard } from "../components/index";
+import { AddMemoCard, IAddMemoFormInput, Loading, MemoCard } from "../components/index";
 import { getMemoDate } from "../utils/handle-date";
 import { trpc } from "../utils/trpc";
 
@@ -11,6 +11,10 @@ const Home: NextPage = () => {
 		refetchOnWindowFocus: false,
 		refetchOnReconnect: false,
 	});
+
+	const onAddMemo = (newMemo: IAddMemoFormInput) => {
+		console.log(newMemo)
+	}
 
 	return (
 		<div className="md:container md:mx-auto my-4">
@@ -61,7 +65,9 @@ const Home: NextPage = () => {
 								}
 							/>
 						))}
-						<AddMemoCard />
+						<AddMemoCard 
+							onAdd={onAddMemo}
+						/>
 					</>
 				)}
 			</div>

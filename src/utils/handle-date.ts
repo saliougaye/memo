@@ -10,3 +10,12 @@ export const getMemoDate = (date: Date) => {
 
     return parsedDate.format('DD/MM HH:mm');
 }
+
+
+export const checkDate = (date: Date) => {
+
+    const parsedDate = dayjs(date);
+
+
+    return parsedDate.isAfter(dayjs());
+}

@@ -1,18 +1,21 @@
+import { UseFormRegister } from "react-hook-form";
 import {
 	IoIosNotificationsOff,
 	IoIosNotificationsOutline
 } from "react-icons/io";
+import { IAddMemoFormInput } from "./add-memo";
 
 export interface ToggleInputProps {
 	checked: boolean;
 	id: string;
 	onChange: () => void;
 	color: string;
+	register: UseFormRegister<IAddMemoFormInput>
 }
 
 export const NotifyToggleInput = (props: ToggleInputProps) => {
 	return (
-		<div className="hover:shadow-xl hover:shadow-stone-600 p-1 rounded shadow-indigo-500/50 hover:cursor-pointer duration-300">
+		<div className="hover:shadow-md hover:shadow-stone-600 rounded shadow-indigo-500/50 hover:cursor-pointer duration-300">
 			<label
 				htmlFor={props.id}
 			>
@@ -21,7 +24,14 @@ export const NotifyToggleInput = (props: ToggleInputProps) => {
 					id={props.id}
 					className="sr-only peer"
 					checked={props.checked}
-					onChange={props.onChange}
+					{
+						...props.register(
+							"notify",
+							{
+								onChange: props.onChange
+							}
+						)
+					}
 				/>
 
 				<span
