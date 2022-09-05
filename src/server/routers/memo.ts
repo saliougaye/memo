@@ -19,32 +19,35 @@ export const memoRouter = createRouter()
         input: addMemoSchema,
         resolve: async ({ input, ctx }) => {
             const { title, description, reminder, notify, category } = input;
+
+            let categoryId: string | undefined = category?.id ?? undefined; 
+
+            if(category && !category.id && category.name && category.color) {
+                
+                const newCategory = await ctx.prisma.category.create({
+                    data: {
+                        name: category.name,
+                        color: category.color
+                    }
+                });
+
+
+                categoryId = newCategory.id;
+
+            }
             
-            console.log(category)
-            // const memoCreated = await ctx.prisma.memo.create({
-            //     data: {
-            //         title: title,
-            //         description: description ?? '',
-            //         reminder: reminder,
-            //         notify: notify,
-            //         category: !category ? undefined : {
-            //             connectOrCreate: {
-            //                 where: {
-            //                     id: category.id
-            //                 },
-            //                 create: {
-            //                     name: category.name,
-            //                     color: category.color,
-            //                 }
-            //             }
-            //         },
-            //     },
-            //     include: {
-            //         category: true
-            //     }
-            // })
+
+            const memoCreated = await ctx.prisma.memo.create({
+                data: {
+                    title: title,
+                    description: description ?? '',
+                    reminder: reminder,
+                    notify: notify,
+                    categoryId: categoryId
+                }
+            })
             
-            // return memoCreated;
+            return memoCreated;
         }
     })
     .mutation('edit', {
